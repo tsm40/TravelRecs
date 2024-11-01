@@ -20,6 +20,6 @@ public class Trip {
 
     private Date startDate;
     private Date endDate;
-    private BigDecimal totalBudget;
-    private BigDecimal curBudget;
+    private Float totalBudget;
+    private Float curBudget;
 }
