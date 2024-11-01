@@ -17,9 +17,36 @@ GRANT ALL PRIVILEGES ON travel_recs.* TO 'group5'@'127.0.0.1';
 FLUSH PRIVILEGES;
 ```
 
+### Table creation
+```
+CREATE TABLE Days (
+    dayID INT PRIMARY KEY,
+    tripID INT,
+    placeID INT,
+    index INT,
+    FOREIGN KEY (tripID) REFERENCES Trips(tripID)
+);
+
+CREATE TABLE Trips (
+    tripID INT PRIMARY KEY,
+    startDate DATE,
+    endDate DATE,
+    totalBudget FLOAT,
+    curBudget FLOAT,
+    userID INT,
+    FOREIGN KEY (userID) REFERENCES Users(userID)
+);
+
+
+CREATE TABLE User (
+    userID INT PRIMARY KEY,
+    userName VARCHAR(255) NOT NULL
+);
+```
+
 ## Command to validate the effectiveness:
 Create a tuple for Table User:
 `curl http://localhost:8080/user/add -d userID=1 -d userName=XX`
 
-Find the user named XX: 
+Find a user named XX: 
 `curl -G http://localhost:8080/user/getByUserName -d userName=XX`
