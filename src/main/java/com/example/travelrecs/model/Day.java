@@ -11,11 +11,18 @@ import lombok.Data;
 @Data
 @Entity
 public class Day {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long dayID;
 
-    private Integer tripID;
-    private Integer placeID;
-    private Integer index;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long dayId;  // Primary key for Day entity
+
+    private int index;  // Day index within the trip (e.g., Day 1, Day 2, etc.)
+
+    @ManyToOne
+    @JoinColumn(name = "placeId")  // Foreign key referencing Place entity
+    private Place place;
+
+    @ManyToOne
+    @JoinColumn(name = "tripId")  // Foreign key referencing Trip entity
+    private Trip trip;
 }

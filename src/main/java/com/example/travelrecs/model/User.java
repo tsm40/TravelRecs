@@ -4,7 +4,7 @@ import com.example.travelrecs.interfaces.UserInterface;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import jakarta.persistence.Id;
 import java.util.List;
 import java.util.Optional;
 

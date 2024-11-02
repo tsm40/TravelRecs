@@ -12,6 +12,11 @@ import lombok.Data;
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long cityId;
-    String cityName;
+    private Long cityId;
+
+    private String cityName;
+
+    @ManyToOne
+    @JoinColumn(name = "stateId") // This is the foreign key column
+    private State state;
 }
