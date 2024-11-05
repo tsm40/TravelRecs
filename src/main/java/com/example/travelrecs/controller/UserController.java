@@ -29,4 +29,5 @@ public class UserController {
     public @ResponseBody Optional<User> getUserById(@PathVariable Integer id) {
         return userInterface.findById(id);
     }
+    // 1. get user name and password
 }

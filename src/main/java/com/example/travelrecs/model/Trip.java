@@ -23,9 +23,10 @@ public class Trip {
 
     private int currBudget;  // Current budget for the trip with places considered
 
-    private LocalDate startDate;  // Start date of the trip
+    private String startDate;  // Start date of the trip
 
-    private LocalDate endDate;  // End date of the trip
+    private String endDate;  // End date of the trip
+
 
     @ManyToOne
     @JoinColumn(name = "userId")  // Foreign key referencing User entity
