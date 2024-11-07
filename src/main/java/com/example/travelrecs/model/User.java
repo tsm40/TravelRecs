@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 @Getter
 @Setter
 @Entity
+@Table(name = "app_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
