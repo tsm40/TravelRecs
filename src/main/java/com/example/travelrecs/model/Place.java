@@ -1,15 +1,22 @@
 package com.example.travelrecs.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 //Data: mark the data as data class to support auto getter and setter method
-@Data
+@Getter
+@Setter
 @Entity
+@Table(name = "place")
 public class Place {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "place_id")
     private Long placeId;  // Primary key for Place entity
 
     private double latitude;  // Exact location - Latitude
@@ -24,8 +31,11 @@ public class Place {
 
     private float rating;  // Rating with two decimal precision
 
-    @ManyToOne
-    @JoinColumn(name = "cityId")  // Foreign key referencing City entity
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "city_id", nullable = false)  // Foreign key referencing City entity
+    @JsonBackReference
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private City city;
 
     private int upperCost;  // Upper cost estimate for this place
@@ -34,6 +44,12 @@ public class Place {
     private float duration;  // Estimated duration to spend at this place (single decimal precision)
 
     private String photoURL;  // URL to a photo of the place
+
+    @ManyToMany(mappedBy = "places")
+    @JsonBackReference
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<Day> days = new HashSet<>();
 
     // Enum for category
     public enum Category {

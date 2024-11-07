@@ -1,28 +1,53 @@
 package com.example.travelrecs.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Getter
+@Setter
 @Entity
 public class Day {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "day_id")
     private Long dayId;  // Primary key for Day entity
 
-    private int index;  // Day index within the trip (e.g., Day 1, Day 2, etc.)
+    @Column(name = "day_number", nullable = false)
+    private int dayNumber;  // Day index within the trip (e.g., Day 1, Day 2, etc.)
 
-    @ManyToOne
-    @JoinColumn(name = "placeId")  // Foreign key referencing Place entity
-    private Place place;
+    @ManyToMany
+    @JoinTable(
+            name = "day_places",
+            joinColumns = @JoinColumn(name = "day_id"),
+            inverseJoinColumns = @JoinColumn(name = "place_id")
+    )
+    @JsonManagedReference
+    private Set<Place> places = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name = "tripId")  // Foreign key referencing Trip entity
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "trip_id")  // Foreign key referencing Trip entity
+    @JsonBackReference
     private Trip trip;
+
+    // 辅助方法：添加 Place
+    public void addPlace(Place place) {
+        places.add(place);
+        place.getDays().add(this);
+    }
+
+    // 辅助方法：移除 Place
+    public void removePlace(Place place) {
+        places.remove(place);
+        place.getDays().remove(this);
+    }
 }

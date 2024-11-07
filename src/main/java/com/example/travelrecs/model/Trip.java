@@ -1,22 +1,22 @@
 package com.example.travelrecs.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.JoinColumn;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate; // Date format without time
+import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Trip {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "trip_id")
     private Long tripId;  // Primary key for Trip entity
 
     private int totalBudget;  // Planned budget for the trip
@@ -28,7 +28,26 @@ public class Trip {
     private String endDate;  // End date of the trip
 
 
-    @ManyToOne
-    @JoinColumn(name = "userId")  // Foreign key referencing User entity
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")  // Foreign key referencing User entity
+    @JsonBackReference
+    @ToString.Exclude  // 排除 user 字段以避免 toString() 时递归
+    @EqualsAndHashCode.Exclude  // 排除 user 字段以避免 equals() 和 hashCode() 时递归
     private User user;
+
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Day> days = new ArrayList<>();
+
+    public void addDay(Day day) {
+        days.add(day);
+        day.setTrip(this);
+    }
+
+    public void removeDay(Day day) {
+        days.remove(day);
+        day.setTrip(null);
+    }
 }
