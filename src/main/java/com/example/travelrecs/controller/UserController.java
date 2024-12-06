@@ -19,21 +19,18 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // 创建新用户
     @PostMapping
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         UserDTO createdUser = userService.createUser(userDTO);
         return ResponseEntity.ok(createdUser);
     }
 
-    // 获取所有用户，支持分页
     @GetMapping
     public ResponseEntity<Page<UserDTO>> getAllUsers(Pageable pageable) {
         Page<UserDTO> users = userService.getAllUsers(pageable);
         return ResponseEntity.ok(users);
     }
 
-    // 根据ID获取用户
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         UserDTO userDTO = userService.getUserById(id)
@@ -41,14 +38,12 @@ public class UserController {
         return ResponseEntity.ok(userDTO);
     }
 
-    // 更新用户
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
         UserDTO updatedUser = userService.updateUser(id, userDTO);
         return ResponseEntity.ok(updatedUser);
     }
 
-    // 删除用户
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);

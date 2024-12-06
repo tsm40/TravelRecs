@@ -20,21 +20,18 @@ public class TripController {
     @Autowired
     private TripService tripService;
 
-    // 创建 Trip
     @PostMapping
     public ResponseEntity<TripDTO> createTrip(@RequestBody TripDTO tripDTO) {
         TripDTO createdTrip = tripService.createTrip(tripDTO);
         return ResponseEntity.ok(createdTrip);
     }
 
-    // 获取所有 Trips，支持分页
     @GetMapping
     public ResponseEntity<Page<TripDTO>> getAllTrips(Pageable pageable) {
         Page<TripDTO> trips = tripService.getAllTrips(pageable);
         return ResponseEntity.ok(trips);
     }
 
-    // 根据 ID 获取 Trip
     @GetMapping("/{id}")
     public ResponseEntity<TripDTO> getTripById(@PathVariable Long id) {
         TripDTO tripDTO = tripService.getTripById(id)
@@ -42,14 +39,12 @@ public class TripController {
         return ResponseEntity.ok(tripDTO);
     }
 
-    // 更新 Trip
     @PutMapping("/{id}")
     public ResponseEntity<TripDTO> updateTrip(@PathVariable Long id, @RequestBody TripDTO tripDTO) {
         TripDTO updatedTrip = tripService.updateTrip(id, tripDTO);
         return ResponseEntity.ok(updatedTrip);
     }
 
-    // 删除 Trip
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTrip(@PathVariable Long id) {
         tripService.deleteTrip(id);

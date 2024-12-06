@@ -41,17 +41,10 @@ public class TripServiceImpl implements TripService {
     @Transactional
     @Override
     public TripDTO createTrip(TripDTO tripDTO) {
-        // 检查 Trip 名称是否已存在（如果有 tripName 字段）
-        // 假设 Trip 有 tripName 字段，如果没有可以忽略
-        // if (tripRepository.existsByTripName(tripDTO.getTripName())) {
-        //     throw new DuplicateResourceException("Trip with name '" + tripDTO.getTripName() + "' already exists.");
-        // }
 
-        // 获取关联的 User 实体
         User user = userRepository.findById(tripDTO.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id " + tripDTO.getUserId()));
 
-        // 获取关联的 Day 实体
         List<Day> days = dayRepository.findAllById(tripDTO.getDayIds()).stream()
                 .collect(Collectors.toList());
 

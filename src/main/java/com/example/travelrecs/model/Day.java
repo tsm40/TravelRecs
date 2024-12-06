@@ -15,6 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@Table(name = "\"day\"") // Escapes the table name in H2
 public class Day {
 
     @Id
