@@ -21,9 +21,9 @@ public class SecurityConfig {
 //    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //        http
 //                .authorizeRequests(authorizeRequests ->
-//                        authorizeRequests.anyRequest().permitAll() // 允许所有请求
+//                        authorizeRequests.anyRequest().permitAll()
 //                )
-//                .csrf(AbstractHttpConfigurer::disable); // 使用推荐方式禁用 CSRF
+//                .csrf(AbstractHttpConfigurer::disable);
 //        return http.build();
 //    }
 }

@@ -31,8 +31,8 @@ public class Trip {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")  // Foreign key referencing User entity
     @JsonBackReference
-    @ToString.Exclude  // 排除 user 字段以避免 toString() 时递归
-    @EqualsAndHashCode.Exclude  // 排除 user 字段以避免 equals() 和 hashCode() 时递归
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private User user;
 
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

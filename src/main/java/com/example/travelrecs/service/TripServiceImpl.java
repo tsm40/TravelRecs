@@ -45,16 +45,16 @@ public class TripServiceImpl implements TripService {
         User user = userRepository.findById(tripDTO.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id " + tripDTO.getUserId()));
 
+
         List<Day> days = dayRepository.findAllById(tripDTO.getDayIds()).stream()
                 .collect(Collectors.toList());
 
-        // 转换 DTO 到实体
+
         Trip trip = tripMapper.toEntity(tripDTO, user, days);
 
-        // 保存实体
+
         Trip savedTrip = tripRepository.save(trip);
 
-        // 转换实体到 DTO
         return tripMapper.toDTO(savedTrip);
     }
 
@@ -76,27 +76,22 @@ public class TripServiceImpl implements TripService {
         Trip trip = tripRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Trip not found with id " + id));
 
-        // 如果有 tripName 字段，检查新的 tripName 是否已存在
-        // if (!trip.getTripName().equals(tripDTO.getTripName())
-        //         && tripRepository.existsByTripName(tripDTO.getTripName())) {
-        //     throw new DuplicateResourceException("Trip with name '" + tripDTO.getTripName() + "' already exists.");
-        // }
 
-        // 获取关联的 User 实体
+
         User user = userRepository.findById(tripDTO.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id " + tripDTO.getUserId()));
 
-        // 获取关联的 Day 实体
+
         List<Day> days = dayRepository.findAllById(tripDTO.getDayIds()).stream()
                 .collect(Collectors.toList());
 
-        // 更新实体
+
         tripMapper.updateEntity(tripDTO, trip, user, days);
 
-        // 保存更新
+
         Trip updatedTrip = tripRepository.save(trip);
 
-        // 转换实体到 DTO
+
         return tripMapper.toDTO(updatedTrip);
     }
 

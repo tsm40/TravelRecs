@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 @Component
 public class TripMapper {
 
-    // 将 Trip 实体转换为 TripDTO
     public TripDTO toDTO(Trip trip) {
         if (trip == null) return null;
 
@@ -29,7 +28,6 @@ public class TripMapper {
         return dto;
     }
 
-    // 将 TripDTO 转换为 Trip 实体
     public Trip toEntity(TripDTO dto, User user, List<Day> days) {
         if (dto == null) return null;
 
@@ -43,7 +41,6 @@ public class TripMapper {
         return trip;
     }
 
-    // 将 TripDTO 更新到现有的 Trip 实体
     public void updateEntity(TripDTO dto, Trip trip, User user, List<Day> days) {
         if (dto == null || trip == null) return;
 

@@ -24,20 +24,17 @@ public class Country {
             mappedBy = "country",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            //在加载父实体时，是否立即加载关联的子实体。
             fetch = FetchType.LAZY
     )
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<State> states = new ArrayList<>();
 
-    // 辅助方法：添加 State
     public void addState(State state) {
         states.add(state);
         state.setCountry(this);
     }
 
-    // 辅助方法：移除 State
     public void removeState(State state) {
         states.remove(state);
         state.setCountry(null);

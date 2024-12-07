@@ -31,22 +31,17 @@ public class PlaceServiceImpl implements PlaceService {
     @Transactional
     @Override
     public PlaceDTO createPlace(PlaceDTO placeDTO) {
-        // 检查地点名称是否已存在
         if (placeRepository.existsByName(placeDTO.getName())) {
             throw new DuplicateResourceException("Place with name '" + placeDTO.getName() + "' already exists.");
         }
 
-        // 获取关联的 City 实体
         City city = cityRepository.findById(placeDTO.getCityId())
                 .orElseThrow(() -> new ResourceNotFoundException("City not found with id " + placeDTO.getCityId()));
 
-        // 转换 DTO 到实体
         Place place = placeMapper.toEntity(placeDTO, city);
 
-        // 保存实体
         Place savedPlace = placeRepository.save(place);
 
-        // 转换实体到 DTO
         return placeMapper.toDTO(savedPlace);
     }
 
@@ -68,23 +63,18 @@ public class PlaceServiceImpl implements PlaceService {
         Place place = placeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Place not found with id " + id));
 
-        // 如果地点名称有变更，检查新的名称是否已存在
         if (!place.getName().equals(placeDTO.getName())
                 && placeRepository.existsByName(placeDTO.getName())) {
             throw new DuplicateResourceException("Place with name '" + placeDTO.getName() + "' already exists.");
         }
 
-        // 获取关联的 City 实体
         City city = cityRepository.findById(placeDTO.getCityId())
                 .orElseThrow(() -> new ResourceNotFoundException("City not found with id " + placeDTO.getCityId()));
 
-        // 更新实体
         placeMapper.updateEntity(placeDTO, place, city);
 
-        // 保存更新
         Place updatedPlace = placeRepository.save(place);
 
-        // 转换实体到 DTO
         return placeMapper.toDTO(updatedPlace);
     }
 

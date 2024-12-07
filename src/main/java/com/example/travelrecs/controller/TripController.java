@@ -20,6 +20,7 @@ public class TripController {
     @Autowired
     private TripService tripService;
 
+
     @PostMapping
     public ResponseEntity<TripDTO> createTrip(@RequestBody TripDTO tripDTO) {
         TripDTO createdTrip = tripService.createTrip(tripDTO);
@@ -32,6 +33,7 @@ public class TripController {
         return ResponseEntity.ok(trips);
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<TripDTO> getTripById(@PathVariable Long id) {
         TripDTO tripDTO = tripService.getTripById(id)
@@ -39,11 +41,13 @@ public class TripController {
         return ResponseEntity.ok(tripDTO);
     }
 
+
     @PutMapping("/{id}")
     public ResponseEntity<TripDTO> updateTrip(@PathVariable Long id, @RequestBody TripDTO tripDTO) {
         TripDTO updatedTrip = tripService.updateTrip(id, tripDTO);
         return ResponseEntity.ok(updatedTrip);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTrip(@PathVariable Long id) {

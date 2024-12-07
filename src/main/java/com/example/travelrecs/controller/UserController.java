@@ -34,7 +34,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         UserDTO userDTO = userService.getUserById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("用户未找到，ID：" + id));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found，ID：" + id));
         return ResponseEntity.ok(userDTO);
     }
 

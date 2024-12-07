@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class PlaceMapper {
 
-    // 将 Place 实体转换为 PlaceDTO
     public PlaceDTO toDTO(Place place) {
         if (place == null) return null;
 
@@ -28,7 +27,6 @@ public class PlaceMapper {
         return dto;
     }
 
-    // 将 PlaceDTO 转换为 Place 实体
     public Place toEntity(PlaceDTO dto, City city) {
         if (dto == null) return null;
 
@@ -47,7 +45,6 @@ public class PlaceMapper {
         return place;
     }
 
-    // 将 PlaceDTO 更新到现有的 Place 实体
     public void updateEntity(PlaceDTO dto, Place place, City city) {
         if (dto == null || place == null) return;
 

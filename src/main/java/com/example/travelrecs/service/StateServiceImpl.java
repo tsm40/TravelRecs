@@ -35,22 +35,17 @@ public class StateServiceImpl implements StateService {
     @Transactional
     @Override
     public StateDTO createState(StateDTO stateDTO) {
-        // 检查州名称是否已存在
         if (stateRepository.existsByStateName(stateDTO.getStateName())) {
             throw new DuplicateResourceException("State with name '" + stateDTO.getStateName() + "' already exists.");
         }
 
-        // 获取关联的 Country 实体
         Country country = countryRepository.findById(stateDTO.getCountryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Country not found with id " + stateDTO.getCountryId()));
 
-        // 转换 DTO 到实体
         State state = stateMapper.toEntity(stateDTO, country);
 
-        // 保存实体
         State savedState = stateRepository.save(state);
 
-        // 转换实体到 DTO
         return stateMapper.toDTO(savedState);
     }
 
@@ -74,23 +69,18 @@ public class StateServiceImpl implements StateService {
         State state = stateRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("State not found with id " + id));
 
-        // 如果州名称有变更，检查新的名称是否已存在
         if (!state.getStateName().equals(stateDTO.getStateName())
                 && stateRepository.existsByStateName(stateDTO.getStateName())) {
             throw new DuplicateResourceException("State with name '" + stateDTO.getStateName() + "' already exists.");
         }
 
-        // 获取关联的 Country 实体
         Country country = countryRepository.findById(stateDTO.getCountryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Country not found with id " + stateDTO.getCountryId()));
 
-        // 更新实体
         stateMapper.updateEntity(stateDTO, state, country);
 
-        // 保存更新
         State updatedState = stateRepository.save(state);
 
-        // 转换实体到 DTO
         return stateMapper.toDTO(updatedState);
     }
 

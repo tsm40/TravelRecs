@@ -20,11 +20,13 @@ public class CountryController {
     @Autowired
     private CountryService countryService;
 
+
     @PostMapping
     public ResponseEntity<CountryDTO> createCountry(@RequestBody CountryDTO countryDTO) {
         CountryDTO createdCountry = countryService.createCountry(countryDTO);
         return ResponseEntity.ok(createdCountry);
     }
+
 
     @GetMapping
     public ResponseEntity<List<CountryDTO>> getAllCountries() {
@@ -39,11 +41,13 @@ public class CountryController {
         return ResponseEntity.ok(countryDTO);
     }
 
+
     @PutMapping("/{id}")
     public ResponseEntity<CountryDTO> updateCountry(@PathVariable Long id, @RequestBody CountryDTO countryDTO) {
         CountryDTO updatedCountry = countryService.updateCountry(id, countryDTO);
         return ResponseEntity.ok(updatedCountry);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCountry(@PathVariable Long id) {

@@ -22,6 +22,7 @@ public class PlaceController {
     @Autowired
     private PlaceService placeService;
 
+
     @PostMapping
     public ResponseEntity<PlaceDTO> createPlace(@RequestBody PlaceDTO placeDTO) {
         PlaceDTO createdPlace = placeService.createPlace(placeDTO);
@@ -47,17 +48,20 @@ public class PlaceController {
         return ResponseEntity.ok(updatedPlace);
     }
 
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePlace(@PathVariable Long id) {
         placeService.deletePlace(id);
         return ResponseEntity.noContent().build();
     }
 
+
     @GetMapping("/getByCity/{cityId}")
     public ResponseEntity<Page<PlaceDTO>> getPlaceByCityId(@PathVariable Long cityId, Pageable pageable) {
         Page<PlaceDTO> places = placeService.getPlacesByCityId(cityId, pageable);
         return ResponseEntity.ok(places);
     }
+
 
     @GetMapping("/getByCityName/{cityName}")
     public ResponseEntity<Page<PlaceDTO>> getPlacesByCityName(@PathVariable String cityName, Pageable pageable) {

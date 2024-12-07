@@ -31,22 +31,17 @@ public class CityServiceImpl implements CityService {
     @Transactional
     @Override
     public CityDTO createCity(CityDTO cityDTO) {
-        // 检查城市名称是否已存在
         if (cityRepository.existsByCityName(cityDTO.getCityName())) {
             throw new DuplicateResourceException("City with name '" + cityDTO.getCityName() + "' already exists.");
         }
 
-        // 获取关联的 State 实体
         State state = stateRepository.findById(cityDTO.getStateId())
                 .orElseThrow(() -> new ResourceNotFoundException("State not found with id " + cityDTO.getStateId()));
 
-        // 转换 DTO 到实体
         City city = cityMapper.toEntity(cityDTO, state);
 
-        // 保存实体
         City savedCity = cityRepository.save(city);
 
-        // 转换实体到 DTO
         return cityMapper.toDTO(savedCity);
     }
 
@@ -70,23 +65,18 @@ public class CityServiceImpl implements CityService {
         City city = cityRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("City not found with id " + id));
 
-        // 如果城市名称有变更，检查新的名称是否已存在
         if (!city.getCityName().equals(cityDTO.getCityName())
                 && cityRepository.existsByCityName(cityDTO.getCityName())) {
             throw new DuplicateResourceException("City with name '" + cityDTO.getCityName() + "' already exists.");
         }
 
-        // 获取关联的 State 实体
         State state = stateRepository.findById(cityDTO.getStateId())
                 .orElseThrow(() -> new ResourceNotFoundException("State not found with id " + cityDTO.getStateId()));
 
-        // 更新实体
         cityMapper.updateEntity(cityDTO, city, state);
 
-        // 保存更新
         City updatedCity = cityRepository.save(city);
 
-        // 转换实体到 DTO
         return cityMapper.toDTO(updatedCity);
     }
 

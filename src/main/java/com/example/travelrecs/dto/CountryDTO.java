@@ -13,6 +13,5 @@ public class CountryDTO {
 
     private String countryName;
 
-    // 可选：包含状态列表的 ID
     private List<Long> stateIds;
 }

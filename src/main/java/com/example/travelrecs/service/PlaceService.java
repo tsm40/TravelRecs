@@ -14,9 +14,7 @@ public interface PlaceService {
     PlaceDTO updatePlace(Long id, PlaceDTO placeDTO);
     void deletePlace(Long id);
 
-    // 根据城市ID获取地点列表，支持分页
     Page<PlaceDTO> getPlacesByCityId(Long cityId, Pageable pageable);
 
-    // 根据城市名称获取地点列表，支持分页
     Page<PlaceDTO> getPlacesByCityName(String cityName, Pageable pageable);
 }

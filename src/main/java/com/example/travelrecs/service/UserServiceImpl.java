@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO createUser(UserDTO userDTO) {
         if (userRepository.existsByUserName(userDTO.getUserName())) {
-            throw new DuplicateResourceException("username '" + userDTO.getUserName() + "' already exists");
+            throw new DuplicateResourceException("Username '" + userDTO.getUserName() + "' already exists.");
         }
 
         User user = userMapper.toEntity(userDTO);
@@ -59,11 +59,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO updateUser(Long id, UserDTO userDTO) {
         User existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("user not found，ID：" + id));
+                .orElseThrow(() -> new ResourceNotFoundException("User note found，ID：" + id));
 
         if (!existingUser.getUserName().equals(userDTO.getUserName()) &&
                 userRepository.existsByUserName(userDTO.getUserName())) {
-            throw new DuplicateResourceException("user '" + userDTO.getUserName() + "' exists");
+            throw new DuplicateResourceException("User name '" + userDTO.getUserName() + "' already exists.");
         }
 
         userMapper.updateEntity(userDTO, existingUser);
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long id) {
         User existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("user not found，ID：" + id));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found，ID：" + id));
 
         userRepository.delete(existingUser);
     }

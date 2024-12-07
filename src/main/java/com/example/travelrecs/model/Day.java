@@ -40,13 +40,11 @@ public class Day {
     @JsonBackReference
     private Trip trip;
 
-    // 辅助方法：添加 Place
     public void addPlace(Place place) {
         places.add(place);
         place.getDays().add(this);
     }
 
-    // 辅助方法：移除 Place
     public void removePlace(Place place) {
         places.remove(place);
         place.getDays().remove(this);
