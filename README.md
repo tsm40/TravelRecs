@@ -1,3 +1,8 @@
+# Data Preparation
+
+We collected our data using the [Google Places API](https://developers.google.com/maps/documentation/places/web-service/overview). The dataset we created can be found at [hawaii_places.csv](hawaii_places.csv). The data was collected after creating an API key through Google Developers and running the script [gplaces.py](gplaces.py). In this script, requests are made to the Google Places API to retrieve 60 results for each of three categories (tourist attractions, restaurants, and lodging) in a 50,000 meter radius around the center of the state of Hawaii. The results are preprocessed in the same script through data cleaning and sectioning to retrieve solely the data necessary for our relational schema, and saved in a CSV format to easily populate our database. This script can be directly run to replicate our results and can also be modified to retrieve additional results with different parameters.
+
+
 # Spring Boot
 Document for JpaRepository: https://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html
 
