@@ -24,29 +24,60 @@ FLUSH PRIVILEGES;
 
 ### Table creation
 ```
-CREATE TABLE Days (
-    dayID INT PRIMARY KEY,
-    tripID INT,
-    placeID INT,
-    index INT,
-    FOREIGN KEY (tripID) REFERENCES Trips(tripID)
+CREATE TABLE state (
+    state_id BIGINT AUTO_INCREMENT PRIMARY KEY, -- Primary key, auto-generated
+    state_name VARCHAR(255) NOT NULL, -- Name of the state
+    country_id BIGINT NOT NULL, -- Foreign key referencing the Country table
+    CONSTRAINT fk_country FOREIGN KEY (country_id) REFERENCES country(country_id) ON DELETE CASCADE
 );
 
-CREATE TABLE Trips (
-    tripID INT PRIMARY KEY,
-    startDate DATE,
-    endDate DATE,
-    totalBudget FLOAT,
-    curBudget FLOAT,
-    userID INT,
-    FOREIGN KEY (userID) REFERENCES Users(userID)
+CREATE TABLE city (
+    city_id BIGINT AUTO_INCREMENT PRIMARY KEY, -- Primary key, auto-generated
+    city_name VARCHAR(255) NOT NULL, -- Name of the city
+    state_id BIGINT NOT NULL, -- Foreign key referencing the State table
+    CONSTRAINT fk_state FOREIGN KEY (state_id) REFERENCES state(state_id) ON DELETE CASCADE
 );
 
-
-CREATE TABLE User (
-    userID INT PRIMARY KEY,
-    userName VARCHAR(255) NOT NULL
+CREATE TABLE place (
+    place_id BIGINT AUTO_INCREMENT PRIMARY KEY, -- Primary key, auto-generated
+    latitude DOUBLE NOT NULL, -- Exact location - Latitude
+    longitude DOUBLE NOT NULL, -- Exact location - Longitude
+    name VARCHAR(255) NOT NULL, -- Name of the place
+    description TEXT, -- Detailed description of the place
+    category ENUM('ATTRACTIONS', 'DINING', 'ACCOMMODATIONS') NOT NULL, -- Category (enumerated values)
+    rating FLOAT(3, 2), -- Rating with two decimal precision
+    city_id BIGINT NOT NULL, -- Foreign key referencing City table
+    upperCost INT, -- Upper cost estimate
+    lowerCost INT, -- Lower cost estimate
+    duration FLOAT(4, 1), -- Estimated duration to spend at this place (single decimal precision)
+    photoURL VARCHAR(255), -- URL to a photo of the place
+    CONSTRAINT fk_city FOREIGN KEY (city_id) REFERENCES city(city_id) ON DELETE CASCADE
 );
+
+CREATE TABLE app_user (
+    user_id BIGINT AUTO_INCREMENT PRIMARY KEY, -- Primary key, auto-generated
+    user_name VARCHAR(255) NOT NULL, -- Username
+    password VARCHAR(255) NOT NULL -- User password
+);
+
+CREATE TABLE trip (
+    trip_id BIGINT AUTO_INCREMENT PRIMARY KEY, -- Primary key, auto-generated
+    totalBudget INT NOT NULL, -- Planned budget for the trip
+    currBudget INT NOT NULL, -- Current budget for the trip
+    startDate VARCHAR(20), -- Start date of the trip (stored as a string for simplicity)
+    endDate VARCHAR(20), -- End date of the trip (stored as a string for simplicity)
+    user_id BIGINT, -- Foreign key referencing the User table
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES app_user(user_id) ON DELETE SET NULL
+);
+
+CREATE TABLE day (
+    day_id BIGINT AUTO_INCREMENT PRIMARY KEY, -- Primary key, auto-generated
+    day_number INT NOT NULL, -- Day index within the trip
+    trip_id BIGINT, -- Foreign key referencing the Trip table
+    place_id Bigint, -- Foreign key referencing the Place table
+    CONSTRAINT fk_trip FOREIGN KEY (trip_id) REFERENCES trip(trip_id) ON DELETE CASCADE
+);
+
 ```
 
 ## Command to validate the effectiveness:
